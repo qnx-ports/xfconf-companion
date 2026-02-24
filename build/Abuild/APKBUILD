@@ -1,0 +1,38 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# QNX Maintainer: Felix Xing <fxing@qnx.com>
+pkgname=xfconf
+pkgver=4.21.0
+pkgrel=0
+pkgdesc="Hierarchical configuration system for Xfce"
+url="https://xfce.org/"
+arch="all"
+license="GPL-2.0-only"
+options="!check" # Requires running dbus daemon.
+subpackages="$pkgname-dev $pkgname-lang $pkgname-bash-completion"
+depends="glib libxfce4util"
+makedepends="meson libxfce4util-dev glib-dev dbus-dev gobject-introspection-dev"
+source="https://archive.xfce.org/src/xfce/xfconf/${pkgver%.*}/xfconf-$pkgver.tar.xz"
+
+build() {
+    meson \
+        -Dprefix=/usr \
+        -Dtests=false \
+        -Dlibexecdir=/usr/lib \
+        -Dc_args="$CFLAGS -DSA_RESTART=0" \
+        output .
+    meson compile -C output
+}
+
+check() {
+    meson test --print-errorlogs -C output
+}
+
+package() {
+    DESTDIR="$pkgdir" meson install --no-rebuild -C output
+    rm -r "$pkgdir"/usr/lib/systemd/
+}
+
+
+sha512sums="
+ed9a8a06f60eef3ee799c861c9138fb6345384117d05969bb61e296515d67863e024671208cfe97ddb0393e0adfb92a9628997a9acea1d0474d3e6ab1c095d53  xfconf-4.21.0.tar.xz
+"
