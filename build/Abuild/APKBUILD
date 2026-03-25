@@ -2,7 +2,7 @@
 # QNX Maintainer: Felix Xing <fxing@qnx.com>
 pkgname=xfconf
 pkgver=4.21.0
-pkgrel=${pkgrel:-0}
+pkgrel=0
 pkgdesc="Hierarchical configuration system for Xfce"
 url="https://xfce.org/"
 arch="all"
@@ -33,7 +33,6 @@ package() {
 }
 
 
-options="$options ${DISABLE_CHECK:+!check}"
 sha512sums="
 ed9a8a06f60eef3ee799c861c9138fb6345384117d05969bb61e296515d67863e024671208cfe97ddb0393e0adfb92a9628997a9acea1d0474d3e6ab1c095d53  xfconf-4.21.0.tar.xz
 "
